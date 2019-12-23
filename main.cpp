@@ -82,6 +82,12 @@ int main(int, char**)
 
     ImGui::SetStyleLinearColor(is_srgb_enabled);
 
+    ImGui::StyleColorsDark();
+    /*ImGui::StyleColorsDark();
+    ImGui::StyleColorsDark();
+    ImGui::StyleColorsDark();
+    ImGui::StyleColorsDark();*/
+
     // Setup Platform/Renderer bindings
     ImGui_ImplGlfw_InitForOpenGL(window, true);
     ImGui_ImplOpenGL3_Init(glsl_version);
@@ -106,6 +112,11 @@ int main(int, char**)
     bool show_another_window = false;
     ImVec4 clear_color = ImVec4(0.45f, 0.55f, 0.60f, 1.00f);
 
+    // Pushing a linear colour, which means that while it says we're 128, we get 50% perceptual brightness, aka 188
+    ImGui::PushStyleLinearColor(ImGuiCol_WindowBg, IM_COL32(128, 0, 0, 255));
+    // This is 128 in sRGB, which is not 50% brightness, but you get 128 onto the screen
+    ImGui::PushStyleSRGBColor(ImGuiCol_TitleBgActive, IM_COL32(128, 0, 0, 255));
+
     // Main loop
     while (!glfwWindowShouldClose(window))
     {
@@ -128,6 +139,13 @@ int main(int, char**)
         ImVec2 br = ImVec2(tl.x + 100, tl.y + 100);
 
         ImGui::GetCurrentWindow()->DrawList->AddRectFilled(tl, br, IM_COL32(128, 0, 200, 255), 0);
+
+        ImGui::Text("\n\n\n\n\n\n\n");
+
+        if(ImGui::Checkbox("Srgb?", &is_srgb_enabled))
+        {
+            ImGui::SetStyleLinearColor(is_srgb_enabled);
+        }
 
         ImGui::End();
 
