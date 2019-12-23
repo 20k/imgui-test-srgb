@@ -43,7 +43,7 @@ int main(int, char**)
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);  // 3.2+ only
     glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);            // Required on Mac
 #else
-    bool is_srgb_enabled = false;
+    bool is_srgb_enabled = true;
 
     // GL 3.0 + GLSL 130
     const char* glsl_version = "#version 130";
