@@ -97,6 +97,19 @@ int main(int, char**)
     assert(fabs(dy) < 0.0001);
     assert(fabs(dz) < 0.0001);
 
+    ImVec4 window_tbg_as_linear = ImGui::GetStyleLinearColor(ImGuiCol_TitleBgActive);
+    ImVec4 window_tbg_as_srgb = ImGui::GetStyleSRGBColor(ImGuiCol_TitleBgActive);
+
+    ImVec4 window_converted = ImGui::SRGBToLinear(window_tbg_as_srgb);
+
+    float sdx = window_tbg_as_linear.x - window_converted.x;
+    float sdy = window_tbg_as_linear.y - window_converted.y;
+    float sdz = window_tbg_as_linear.z - window_converted.z;
+
+    assert(fabs(sdx) < 0.0001);
+    assert(fabs(sdy) < 0.0001);
+    assert(fabs(sdz) < 0.0001);
+
     // Main loop
     while (!glfwWindowShouldClose(window))
     {
