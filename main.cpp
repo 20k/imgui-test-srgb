@@ -81,11 +81,21 @@ int main(int, char**)
     // This is 128 in sRGB, which is not 50% brightness, but you get 128 onto the screen
     ImGui::PushStyleSRGBColor(ImGuiCol_TitleBgActive, IM_COL32(128, 0, 0, 255));
 
-    ImVec4 window_bg_as_linaer = ImGui::GetStyleLinearColor(ImGuiCol_WindowBg);
+    ImVec4 window_bg_as_linear = ImGui::GetStyleLinearColor(ImGuiCol_WindowBg);
     ImVec4 window_bg_as_srgb = ImGui::GetStyleSRGBColor(ImGuiCol_WindowBg);
 
-    printf("Window BG as linear: %f %f %f\n", window_bg_as_linaer.x, window_bg_as_linaer.y, window_bg_as_linaer.z);
+    printf("Window BG as linear: %f %f %f\n", window_bg_as_linear.x, window_bg_as_linear.y, window_bg_as_linear.z);
     printf("Window BG as displayed/SRGB: %f %f %f\n", window_bg_as_srgb.x, window_bg_as_srgb.y, window_bg_as_srgb.z);
+
+    ImVec4 converted = ImGui::LinearToSRGB(window_bg_as_linear);
+
+    float dx = window_bg_as_srgb.x - converted.x;
+    float dy = window_bg_as_srgb.y - converted.y;
+    float dz = window_bg_as_srgb.z - converted.z;
+
+    assert(fabs(dx) < 0.0001);
+    assert(fabs(dy) < 0.0001);
+    assert(fabs(dz) < 0.0001);
 
     // Main loop
     while (!glfwWindowShouldClose(window))
